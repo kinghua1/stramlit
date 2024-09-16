@@ -1,0 +1,13 @@
+import streamlit as st
+
+st.header('身体指数计算器')
+
+weith = st.number_input('请输入体重', min_value=0.0)
+heith = st.number_input('请输入身高', min_value=0.0, format="%.2f")
+
+if st.button('计算BMI'):
+    bmi = weith / (heith ** 2),
+    st.write('你的BMI为：', bmi)
+
+
+
