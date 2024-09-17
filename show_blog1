@@ -1,0 +1,42 @@
+
+import peewee
+import datetime
+#streamlit部分
+import streamlit as st
+st.title('king BLog')
+
+#连接数据库
+db = peewee.SqliteDatabase('test2.db')
+
+#定义数据模型，
+class Note(peewee.Model):
+    title_id = peewee.IntegerField() #存数字
+    text =peewee.CharField()  #存文本类型
+    title =peewee.CharField()  #存文本类型
+    created = peewee.DateTimeField(default=datetime.datetime.now)
+    #创建时间
+
+#配置数据库实例，和表明
+    class Meta:
+        database = db
+        db_table = 'notes'
+# 检查表是否存在，如果不存在则创建新表
+if not Note.table_exists():
+    Note.create_table()
+
+# 用户输入处理
+title3 = st.text_input('Change Title')
+if st.button('Update'):
+    # 更新 title_id 为 1 的笔记标题
+    Note.update(title=title3).where(Note.title_id == 1).execute()
+
+notes2 = Note.select().where(Note.title_id == 1)
+for note in notes2:
+    title2 = note.title
+    text2 = note.text
+    print('text2',text2)
+    print('title2',title2)
+
+st.header(title2)
+st.text(text2)
+
